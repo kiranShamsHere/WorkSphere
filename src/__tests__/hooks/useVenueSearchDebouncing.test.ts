@@ -122,12 +122,13 @@ describe("useVenueSearch isDebouncing (#7673)", () => {
     expect(result.current.isDebouncing).toBe(false);
   });
 
-  it("is never true when debounceMs is 0", () => {
+  it("is never true when debounceMs is 0", async () => {
     const { result } = renderHook(() => useVenueSearch({ debounceMs: 0 }));
 
-    act(() => {
+    await act(async () => {
       result.current.setQuery("cafe");
     });
     expect(result.current.isDebouncing).toBe(false);
+    expect(mockFetch).toHaveBeenCalledTimes(1);
   });
 });
